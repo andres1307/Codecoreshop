@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo%} {% endblock%}</title>
+    {% block LinkAdicional%} {% endblock%}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/Logo.PNG') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Menuapp.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Raleway:500,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <!-- Menú lateral -->
+    <header>
+        <div class="menu-logo">
+            <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo del menú">
+        </div>
+        <div class="nav">
+            <nav>
+                {% if datosApp.longMenuAppindex > 0 %}
+                <ul>
+                    {% for i in datosApp.MenuAppindex %}
+                    <li>
+                        <a href="{{ url_for(i.url) }}">
+                            <i class="fas fa-{{ i.icono }}"></i>
+                            <span>{{ i.nombre }}</span>
+                            {% if i.submodulos %}
+                                <i class="fas fa-chevron-down dropdown-icon"></i>
+                            {% endif %}
+                        </a>
+                        {% if i.submodulos %}
+                            <ul class="submenu">
+                                {% for sub in i.submodulos %}
+                                <li>
+                                    <a href="{{ url_for(sub.url) }}">
+                                        <i class="fas fa-{{ sub.icono }}"></i>
+                                        <span>{{ sub.nombre }}</span>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <h2>NO HAY DATOS DEL APP</h2>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Header superior -->
+    <div class="header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo del header">
+        </div>
+        <button class="btn-menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Sección principal -->
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+
+    <!-- Pie de página compacto -->
+    <footer class="footer">
+        <p>&copy;2025 Codecoreshop Colombia. Desarrollador: viejokay59@gmail.com</p>
+    </footer>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
